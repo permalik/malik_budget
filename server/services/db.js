@@ -3,20 +3,11 @@ import {config} from "../config";
 
 const connection = mysql.createConnection(config.db);
 
-// async function query(sql, params) {
-//   const connection = await mysql.createConnection(config.db);
-//   const [results,] = await connection.execute(sql, params);
-//
-//   return results;
-// }
+async function query(sql, params) {
+  const connection = await mysql.createConnection(config.db);
+  const [results,] = await connection.execute(sql, params);
 
-connection.connect(function (err) {
-  if (err) throw err;
-  console.log("Connected!");
-  connection.query("CREATE DATABASE malikbudget", function (err, result) {
-    if (err) throw err;
-    console.log("Database created");
-  });
-});
+  return results;
+}
 
-// export {query};
+export {query};
