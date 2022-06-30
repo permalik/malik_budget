@@ -50,6 +50,11 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;JavaScript.Libraries&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -59,7 +64,7 @@
       <option name="presentableId" value="Default" />
       <updated>1656450120177</updated>
       <workItem from="1656450121400" duration="10802000" />
-      <workItem from="1656548709867" duration="494000" />
+      <workItem from="1656548709867" duration="1132000" />
     </task>
     <servers />
   </component>
