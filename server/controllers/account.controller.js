@@ -64,7 +64,19 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
+  const title = req.query.title;
+  let condition = title ? {title: {[Op.iLike]: `%${title}`}} : null;
 
+  Account.findAll({where: condition})
+    .then(data => {
+      res.send(data);
+    })
+    .catch(error => {
+      res.status(500).send({
+        message:
+          error.message || 'An error occurred while retrieving accounts.'
+      });
+    });
 };
 
 exports.findOne = (req, res) => {
