@@ -80,11 +80,45 @@ exports.findAll = (req, res) => {
 };
 
 exports.findOne = (req, res) => {
-
+  const id = req.params.id;
+  Account.findByPk(id)
+    .then(data => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find account with ID = ${id}.`
+        });
+      }
+    })
+    .catch(error => {
+      res.status(500).send({
+        message: `Error retrieving Account with ID = ${id}`
+      });
+    });
 };
 
 exports.update = (req, res) => {
-
+  const id = req.params.id;
+  Account.update(req.body, {
+    where: {id: id}
+  })
+    .then(num => {
+      if (num === 1) {
+        res.send({
+          message: 'Account was successfully updated.'
+        });
+      } else {
+        res.send({
+          message: `Cannot update Account with ID = ${id}. Maybe Account was not found or body is empty.`
+        });
+      }
+    })
+    .catch(error => {
+      res.status(500).send({
+        message: `Error updating Account with ID = ${id}`
+      });
+    });
 };
 
 exports.deleteAll = (req, res) => {
