@@ -122,7 +122,19 @@ exports.update = (req, res) => {
 };
 
 exports.deleteAll = (req, res) => {
-
+  Account.destroy({
+    where: {},
+    truncate: false
+  })
+    .then(numbers => {
+      res.send({message: `${numbers} accounts were successfully deleted.`});
+    })
+    .catch(error => {
+      res.status(500).send({
+        message:
+          error.message || 'An error occurred when deleting all accounts.'
+      });
+    });
 };
 
 exports.delete = (req, res) => {
