@@ -116,7 +116,8 @@ exports.update = (req, res) => {
     })
     .catch(error => {
       res.status(500).send({
-        message: `Error updating Account with ID = ${id}`
+        message:
+          error.message || `Error updating Account with ID = ${id}`
       });
     });
 };

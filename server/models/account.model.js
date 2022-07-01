@@ -33,5 +33,4 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.ARRAY(Sequelize.STRING)
     }
   });
-  return Account;
 };
