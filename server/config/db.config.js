@@ -1,15 +1,27 @@
+const {MongoClient} = require('mongodb');
+const connectionString = process.env.DATABASE_URL;
+const client = new MongoClient(connectionString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+let dbConnection;
+
 module.exports = {
-  HOST: process.env.HEROKU_HOST,
-  USER: process.env.HEROKU_USER,
-  PASSWORD: process.env.HEROKU_PASSWORD,
-  DB: process.env.HEROKU_DB,
-  CONNECTION_STRING: process.env.HEROKU_URL,
-  PORT: process.env.PORT,
-  dialect: "postgres",
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
+  connectToServer: function (callback) {
+    client.connect(function (err, db) {
+      if (err || !db) {
+        return callback(err);
+      }
+
+      dbConnection = db.db('sample_airbnb');
+      console.log('Successfully connected to MongoDB.');
+
+      return callback();
+    });
+  },
+
+  getDb: function () {
+    return dbConnection;
   }
 };
