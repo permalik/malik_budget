@@ -1,5 +1,3 @@
-const {Sequelize} = require("sequelize");
-const sequelize = require("sequelize");
 module.exports = mongoose => {
   const Account = mongoose.model(
     'account',
@@ -18,8 +16,28 @@ module.exports = mongoose => {
       },
       {timestamps: true}
     ));
-  return Account;
 };
+
+// module.exports = mongoose => {
+//   var schema = mongoose.Schema(
+//     {
+//       title: String,
+//       description: String,
+//       published: Boolean
+//     },
+//     {timestamps: true}
+//   );
+//
+//   schema.method("toJSON", function () {
+//     const {__v, _id, ...object} = this.toObject();
+//     object.id = _id;
+//     return object;
+//   });
+//
+//   const Tutorial = mongoose.model("tutorial", schema);
+//   return Tutorial;
+// };
+
 //     type: {
 //       type: Sequelize.STRING
 //     },

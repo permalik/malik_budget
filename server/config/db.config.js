@@ -1,6 +1,6 @@
 module.exports = {
-  url: process.env.DATABASE_URL
-}
+  url: "mongodb+srv://Cluster13362:67vpkXZndZgLuOot@cluster13362.9yewm.mongodb.net/sample_airbnb"
+};
 
 // const {MongoClient} = require('mongodb');
 // const connectionString = process.env.DATABASE_URL;

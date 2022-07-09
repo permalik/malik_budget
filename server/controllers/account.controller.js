@@ -32,38 +32,44 @@ exports.create = (req, res) => {
         message: 'Amount cannot be empty!'
       }
     );
+    return;
   }
   if (!req.body.title) {
     res.status(400).send({
         message: 'Title cannot be empty!'
       }
     );
+    return;
   }
   if (!req.body.type) {
     res.status(400).send({
         message: 'Type cannot be empty!'
       }
     );
+    return;
   }
   if (!req.body.status) {
     res.status(400).send({
         message: 'Status cannot be empty!'
       }
     );
+    return;
   }
   if (!req.body.frequency) {
     res.status(400).send({
         message: 'Frequency cannot be empty!'
       }
     );
+    return;
   }
   if (!req.body.date) {
     res.status(400).send({
         message: 'Date cannot be empty!'
       }
     );
+    return;
   }
-  const account = {
+  const account = new Account({
     amount: req.body.amount,
     title: req.body.title,
     type: req.body.type,
@@ -74,8 +80,10 @@ exports.create = (req, res) => {
     note: req.body.note,
     important: req.body.important ? req.body.important : false,
     tags: req.body.tags
-  };
-  Account.create(account)
+  });
+
+  account
+    .save(account)
     .then(data => {
       res.send(data);
     })
@@ -89,9 +97,14 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
   const title = req.query.title;
-  let condition = title ? {title: {[Op.iLike]: `%${title}`}} : null;
+  let condition = title ? {
+    title: {
+      $regex: new RegExp(title),
+      $options: 'i'
+    }
+  } : {};
 
-  Account.findAll({where: condition})
+  Account.find(condition)
     .then(data => {
       res.send(data);
     })
@@ -105,38 +118,49 @@ exports.findAll = (req, res) => {
 
 exports.findOne = (req, res) => {
   const id = req.params.id;
-  Account.findByPk(id)
+  Account.findById(id)
     .then(data => {
       if (data) {
         res.send(data);
       } else {
-        res.status(404).send({
-          message: `Cannot find account with ID = ${id}.`
-        });
+        res
+          .status(404)
+          .send({
+            message: `Cannot find account with ID = ${id}.`
+          });
       }
     })
     .catch(error => {
-      res.status(500).send({
-        message: `Error retrieving Account with ID = ${id}`
-      });
+      res
+        .status(500)
+        .send({
+          message: `Error retrieving Account with ID = ${id}`
+        });
     });
 };
 
 exports.update = (req, res) => {
+  if (!req.body) {
+    return res
+      .status(400)
+      .send({
+        message: 'Data to update cannot be empty!'
+      });
+  }
+
   const id = req.params.id;
-  Account.update(req.body, {
-    where: {id: id}
-  })
-    .then(num => {
-      if (num === 1) {
-        res.send({
-          message: 'Account was successfully updated.'
-        });
-      } else {
-        res.send({
-          message: `Cannot update Account with ID = ${id}. Maybe Account was not found or body is empty.`
-        });
-      }
+
+  Account.findByIdAndUpdate(id, req.body, {userFindAndModify: false})
+    .then(data => {
+      if (!data) {
+        res
+          .status(404)
+          .send({
+            message: `Cannot update Account with ID = ${id}. Maybe Account was not found or body is empty.`
+          });
+      } else res.send({
+        message: 'Account was successfully updated.'
+      });
     })
     .catch(error => {
       res.status(500).send({
@@ -147,12 +171,11 @@ exports.update = (req, res) => {
 };
 
 exports.deleteAll = (req, res) => {
-  Account.destroy({
-    where: {},
-    truncate: false
-  })
-    .then(numbers => {
-      res.send({message: `${numbers} accounts were successfully deleted.`});
+  Account.deleteMany({})
+    .then(data => {
+      res.send({
+        message: `${data.deletedCount} accounts were successfully deleted.`
+      });
     })
     .catch(error => {
       res.status(500).send({
@@ -163,9 +186,25 @@ exports.deleteAll = (req, res) => {
 };
 
 exports.delete = (req, res) => {
+  const id = req.params.id;
 
-};
-
-exports.findAllPublished = (req, res) => {
-
-};
+  Account.findByIdAndRemove(id, {useFindAndModify: false})
+    .then(data => {
+      if (!data) {
+        res
+          .status(404)
+          .send({
+            message: `Cannot delete Account with id = ${id}. Maybe Account was not found!`
+          });
+      } else {
+        res.send({
+          message: 'Account was successfully deleted!'
+        });
+      }
+    })
+    .catch(error => {
+      res.status(500).send({
+        message: `Could not delete Account with id = ${id}`
+      });
+    });
+} ;
