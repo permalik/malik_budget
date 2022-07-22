@@ -2,7 +2,7 @@ import http from "../controllers/http_common";
 import IAccountData from "../types/account.type";
 
 const create = (data: IAccountData) => {
-  return http.post<IAccountData>("/accounts", data);
+  return http.post<IAccountData>("/", data);
 };
 
 const getAll = () => {

@@ -2,11 +2,11 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:8080'
+  origin: 'http://localhost:3000'
 };
 
 app.use(cors(corsOptions));
@@ -36,19 +36,3 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-// mongoose.connect(mongoString);
-// const database = mongoose.connection;
-//
-// database.on('error', (error) => {
-//   console.log(error);
-// });
-//
-// database.once('connected', () => {
-//   console.log('Database Connected');
-// });
-
-// app.use(express.urlencoded({extended: true}));
-// app.get("/", (req, res) => {
-//   res.json({message: "Application running..."});
-// });

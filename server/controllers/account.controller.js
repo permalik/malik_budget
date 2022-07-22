@@ -1,28 +1,3 @@
-// const express = require('express');
-// const accountRoutes = express.Router();
-//
-// accountRoutes.route('/listings/recordSwipe').post(function (req, res {
-//   const dbConnect = dbo.getDb();
-//   const matchDocument = {
-//     listing_id: req.body.id,
-//     last_modified: new Date(),
-//     session_id: req.body.session_id,
-//     direction: req.body.direction
-//   };
-//
-//   dbConnect
-//     .collection('matches')
-//     .insertOne(matchDocument, function (err, result) {
-//       if (err) {
-//         res.status(400).send('Error inserting matches.');
-//       } else {
-//         console.log(`Added a new match with id ${result.insertedId}`);
-//         res.status(204).send();
-//       }
-//     });
-// });
-// )
-
 const db = require('../models');
 const Account = db.accounts;
 
